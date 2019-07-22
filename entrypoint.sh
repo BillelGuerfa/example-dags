@@ -17,6 +17,4 @@
 # specific language governing permissions and limitations
 # under the License.
 
-
-def print_stuff():
-    print("annotated!")
+["/bin/bash", "-c", "/bin/sleep 30; /bin/mv {{params.source_location}}/{{ ti.xcom_pull('view_file') }} {{params.target_location}}; /bin/echo '{{params.target_location}}/{{ ti.xcom_pull('view_file') }}';"]

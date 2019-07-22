@@ -17,26 +17,22 @@
 # specific language governing permissions and limitations
 # under the License.
 
-"""Example DAG demonstrating the usage of the PigOperator."""
-
-import airflow
 from airflow.models import DAG
-from airflow.operators.pig_operator import PigOperator
+from airflow.operators.dummy_operator import DummyOperator
 
-args = {
-    'owner': 'airflow',
-    'start_date': airflow.utils.dates.days_ago(2),
-}
 
-dag = DAG(
-    dag_id='example_pig_operator',
-    default_args=args,
-    schedule_interval=None,
-)
+def subdag(parent_dag_name, child_dag_name, args):
+    dag_subdag = DAG(
+        dag_id='%s.%s' % (parent_dag_name, child_dag_name),
+        default_args=args,
+        schedule_interval="@daily",
+    )
 
-run_this = PigOperator(
-    task_id="run_example_pig_script",
-    pig="ls /;",
-    pig_opts="-x local",
-    dag=dag,
-)
+    for i in range(5):
+        DummyOperator(
+            task_id='%s-task-%s' % (child_dag_name, i + 1),
+            default_args=args,
+            dag=dag_subdag,
+        )
+
+    return dag_subdag

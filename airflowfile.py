@@ -1,19 +1,19 @@
-
+from __future__ import print_function
 import airflow
 from airflow.contrib.operators.spark_submit_operator import SparkSubmitOperator
 from airflow.models import DAG
-from datetime import timedelta
+from datetime import datetime, timedelta
 import os
 
 JOBS_PATH = "/home/jobs/"
 
 
 default_args = {
-    'owner': 'airflow',
+    'owner': 'Airflow',
     'depends_on_past': False,
     'retries': 0,
     'start_date': airflow.utils.dates.days_ago(2)
-}
+    }
 
 
 dag = DAG(dag_id='internship_pipeline', default_args=default_args, schedule_interval=timedelta(days=1))
