@@ -3,6 +3,7 @@ from datetime import timedelta
 import airflow
 from airflow.models import DAG
 from airflow.operators.bash_operator import BashOperator
+from airflow.operators.dummy_operator import DummyOperator
 
 
 
@@ -15,6 +16,10 @@ default_args = {
 
 dag = DAG(dag_id='internship_pipeline_bash', default_args=default_args, schedule_interval='0 0 * * *')
 
+run_this_last = DummyOperator(
+    task_id='run_this_last',
+    dag=dag,
+)
 
 clean_so_data_bash = BashOperator(
     task_id='clean_so_data_bash',
@@ -22,4 +27,4 @@ clean_so_data_bash = BashOperator(
     dag=dag,
 )
 
-clean_so_data_bash
+clean_so_data_bash >> run_this_last
