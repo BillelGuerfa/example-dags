@@ -16,7 +16,7 @@ default_args = {
 
 dag = DAG(dag_id='internship_pipeline_bash', default_args=default_args, schedule_interval='0 0 * * *')
 
-run_this_last = DummyOperator(
+run_this_first = DummyOperator(
     task_id='run_this_last',
     dag=dag,
 )
@@ -27,4 +27,5 @@ clean_so_data_bash = BashOperator(
     dag=dag,
 )
 
-clean_so_data_bash >> run_this_last
+
+run_this_first >> clean_so_data_bash 
