@@ -25,7 +25,9 @@ clean_so_data = SparkSubmitOperator(
     name = "clean_so_data",
     num_executors = 3,
     conn_id="spark_default",
+    java_class = "Main",
     conf={
+        "spark.kubernetes.namespace" : "default",
         "spark.kubernetes.container.image":"gcr.io/billel-internship/spark",
         "spark.kubernetes.container.image.pullPolicy":"Always",
         "spark.hadoop.google.cloud.auth.service.account.enable": "true",
