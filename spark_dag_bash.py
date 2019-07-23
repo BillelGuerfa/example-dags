@@ -1,19 +1,19 @@
+from datetime import timedelta
+
 import airflow
-from airflow.operators.bash_operator import BashOperator
 from airflow.models import DAG
-from datetime import datetime, timedelta
-import os
+from airflow.operators.bash_operator import BashOperator
+
 
 
 default_args = {
     'owner': 'airflow',
-    'depends_on_past': False,
     'retries': 0,
     'start_date': airflow.utils.dates.days_ago(2)
     }
 
 
-dag = DAG(dag_id='internship_pipeline_bash', default_args=default_args, schedule_interval=timedelta(days=1))
+dag = DAG(dag_id='internship_pipeline_bash', default_args=default_args, schedule_interval='0 0 * * *')
 
 
 clean_so_data_bash = BashOperator(
